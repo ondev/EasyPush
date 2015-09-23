@@ -27,6 +27,7 @@
 @property (weak) IBOutlet NSTextField *ibTokenField;
 @property (weak) IBOutlet NSTextField *ibP12PathField;
 @property (weak) IBOutlet NSTextField *ibPasswordField;
+@property (unsafe_unretained) IBOutlet NSTextView *ibPayloadView;
 
 @property (nonatomic, strong) NSString *host;
 @property (nonatomic, assign) NSInteger port;
@@ -125,6 +126,9 @@
     NSUserDefaultsController * theDefaultsController = [NSUserDefaultsController sharedUserDefaultsController];
     [[theDefaultsController values] setValue:self.deviceToken
                                       forKey:@"deviceToken"];
+    
+    NSString *s = self.ibPayloadView.string;
+    self.payload = [[NSAttributedString alloc] initWithString:s];
     [self push];
 }
 
