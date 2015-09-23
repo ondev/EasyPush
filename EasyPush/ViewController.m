@@ -9,6 +9,8 @@
 #import "ViewController.h"
 @import CocoaAsyncSocket;
 
+#define Product 1
+
 @interface ViewController() {
     dispatch_queue_t queue;
 }
@@ -26,12 +28,22 @@
 @property (weak) IBOutlet NSTextField *ibP12PathField;
 @property (weak) IBOutlet NSTextField *ibPasswordField;
 
+@property (nonatomic, strong) NSString *host;
+@property (nonatomic, assign) NSInteger port;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+#if Product
+    self.host = @"gateway.push.apple.com";
+    self.port = 2195;
+#else
+    self.host = @"gateway.sandbox.push.apple.com";
+    self.port = 2195;
+#endif
 
     self.deviceToken = @"";
     self.payload = [[NSAttributedString alloc] initWithString:@"{\"aps\":{\"alert\":\"This is a push message.\",\"badge\":1}}"];
@@ -56,8 +68,7 @@
 #pragma mark - Private
 - (void)startConnect {
     NSError *err = nil;
-    NSString *host = @"gateway.sandbox.push.apple.com";
-    if (![_sock connectToHost:host  onPort:2195 error:&err]) {
+    if (![_sock connectToHost:_host  onPort:_port error:&err]) {
         NSLog(@"连接错误原因: %@",err);
     } else {
         err = nil;
@@ -93,7 +104,7 @@
     CFArrayRef myCerts = CFArrayCreate(NULL, (void *)certArray, 1, NULL);
     
     [sslSettings setObject:(id)CFBridgingRelease(myCerts) forKey:(NSString *)kCFStreamSSLCertificates];
-    [sslSettings setObject:@"gateway.sandbox.push.apple.com" forKey:(NSString *)kCFStreamSSLPeerName];
+    [sslSettings setObject:_host forKey:(NSString *)kCFStreamSSLPeerName];
     [self.sock startTLS:sslSettings];
 }
 
@@ -126,6 +137,7 @@
     [oPanel setCanChooseFiles:YES];
     [oPanel setDirectoryURL:[NSURL URLWithString:path]];
     if ([oPanel runModal] == NSModalResponseOK) {  //如果用户点OK
+        self.ibP12PathField.stringValue = [[[oPanel URLs] objectAtIndex:0] absoluteString];
     }
 }
 
