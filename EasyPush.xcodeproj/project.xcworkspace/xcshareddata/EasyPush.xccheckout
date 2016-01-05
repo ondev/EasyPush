@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>F8C1217F-DD6C-4C05-8026-BBADF5C4DC1C</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>EasyPush</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>26235CE5F29CB5C167D1CE30EB071F002CAFF82C</key>
 		<string>https://github.com/ondev/EasyPush.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>EasyPush.xcodeproj/project.xcworkspace</string>
+	<string>EasyPush.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>26235CE5F29CB5C167D1CE30EB071F002CAFF82C</key>
